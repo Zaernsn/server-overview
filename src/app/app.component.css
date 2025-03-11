@@ -1,3 +1,12 @@
-.app-container{
-    padding: 28px;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100% - (28px * 2));
+  padding: 28px;
+}
+
+.footer {
+  margin-top: auto;
+  text-align: center;
+  background-color: lightgray;
 }

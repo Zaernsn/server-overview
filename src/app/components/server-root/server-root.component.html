@@ -1,5 +1,11 @@
-<p>server-root works!</p>
 
+<div class="search-container">
+    <mat-form-field>
+        <mat-label>Suche</mat-label>
+        <input [(ngModel)]="searchTerm" matInput>
+        <mat-icon matSuffix (click)="searchTerm = ''">close</mat-icon>
+    </mat-form-field>
+</div>
 <div class="card-container">
     @for (item of servers; track $index) {
         <server-card [server]="item"></server-card>
