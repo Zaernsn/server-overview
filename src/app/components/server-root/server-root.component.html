@@ -1,0 +1,7 @@
+<p>server-root works!</p>
+
+<div class="card-container">
+    @for (item of servers; track $index) {
+        <server-card [server]="item"></server-card>
+    }
+</div>
