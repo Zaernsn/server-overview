@@ -2,7 +2,9 @@
   <mat-card-header>
     <mat-card-title-group>
       <mat-card-title>
-        {{ server().label }}
+        <mat-form-field class="standard-form-field" >
+          <input [formControl]="labelCtrl" matInput>
+        </mat-form-field>
       </mat-card-title>
       <mat-card-subtitle>{{
         server().active ? "Aktiv" : "Inaktiv"
