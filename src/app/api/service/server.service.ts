@@ -1,21 +1,40 @@
 import { Injectable } from '@angular/core';
 import { Server } from '../model/Server';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServerService {
-  servers: Server[] = []
+  private serversSubject = new BehaviorSubject<Server[]>([]);
+  servers$ = this.serversSubject.asObservable();
 
-  constructor() { 
-    this.setServer()
+  constructor() {
+    this.setServer();
   }
 
-  setServer(){
-    this.servers = this.extractServers(this.jsonData)
+  get servers() {
+    return this.serversSubject.value;
   }
 
-   extractServers(data: any, servers: Server[] = []): Server[] {
+  setServer() {
+    this.serversSubject.next(this.extractServers(this.jsonData));
+  }
+
+  updateServer(updatedServer: Server) {
+    const servers = this.serversSubject.value.map(server => 
+      server === updatedServer ? { ...server, ...updatedServer } : server
+    );
+  
+    this.serversSubject.next(servers);
+  }
+
+  addServer(server: Server) {
+    const updatedServers = [server, ...this.serversSubject.value];
+    this.serversSubject.next(updatedServers);
+  }
+
+  extractServers(data: any, servers: Server[] = []): Server[] {
     if (data && typeof data === 'object') {
       if (data.server) {
         servers.push(data.server);
@@ -27,60 +46,59 @@ export class ServerService {
     return servers;
   }
 
-
   jsonData = {
-    "acai": true,
-    "ackee": "abc",
-    "apple": {
-      "date": {
-        "durian": {
-          "server": {
-            "label": "Durian",
-            "active": true
-          }
-        }
+    acai: true,
+    ackee: 'abc',
+    apple: {
+      date: {
+        durian: {
+          server: {
+            label: 'Durian',
+            active: true,
+          },
+        },
       },
-      "elderberry": [
+      elderberry: [
         {
-          "fig": null,
-          "huckleberry": {
-            "server": {
-              "label": "Huckleberry",
-              "active": true
-            }
-          }
+          fig: null,
+          huckleberry: {
+            server: {
+              label: 'Huckleberry',
+              active: true,
+            },
+          },
         },
         {
-          "gooseberry": false,
-          "server": {
-            "label": "Elderberry",
-            "active": false
-          }
-        }
-      ]
+          gooseberry: false,
+          server: {
+            label: 'Elderberry',
+            active: false,
+          },
+        },
+      ],
     },
-    "apricot": 123,
-    "avocado": "abc",
-    "banana": false,
-    "belfruit": "123",
-    "bilberry": "abc",
-    "blackberry": [
+    apricot: 123,
+    avocado: 'abc',
+    banana: false,
+    belfruit: '123',
+    bilberry: 'abc',
+    blackberry: [
       {
-        "boysenberry": 123,
-        "dewberry": "123"
+        boysenberry: 123,
+        dewberry: '123',
       },
       {
-        "grapefruit": 123,
-        "guava": "123"
-      }
+        grapefruit: 123,
+        guava: '123',
+      },
     ],
-    "blueberry": 123,
-    "breadfruit": false,
-    "server": {
-      "label": "Kiwi",
-      "active": false
+    blueberry: 123,
+    breadfruit: false,
+    server: {
+      label: 'Kiwi',
+      active: false,
     },
-    "breadnut": null,
-    "canistel": "abc"
+    breadnut: null,
+    canistel: 'abc',
   };
 }

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
-        path: 'server',
+        path: '',
         loadChildren: () => import('./components/server-root/server-root.routes')
     }
 ];

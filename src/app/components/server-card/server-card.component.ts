@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ServerDialogComponent } from '../server-dialog/server-dialog.component';
 
 @Component({
   selector: 'server-card',
@@ -26,12 +28,21 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class ServerCardComponent {
   server = input.required<Server>();
 
-  editMode: boolean = false;
-  labelCtrl: FormControl = new FormControl('');
+  constructor(private dialog: MatDialog) {}
 
-  constructor() {
-    effect(() => {
-      this.labelCtrl.setValue(this.server().label);
+  openEdit() {
+    const ref = this.dialog.open(ServerDialogComponent, {
+      data: this.server(),
+      disableClose: true,
     });
+
+    ref.afterClosed().subscribe((res) => {
+      if (!res) return;
+      this.server().label = res;
+    });
+  }
+
+  changeState(){
+    this.server().active = !this.server().active
   }
 }

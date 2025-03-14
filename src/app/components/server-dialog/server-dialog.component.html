@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{ server ? "Edit " + server.label : "Create Server" }}</h1>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Label</mat-label>
+    <input [formControl]="labelCtrl" matInput minlength="5" />
+    @if (labelCtrl.invalid) {
+    <mat-error>Min length is 5 characters</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [disabled]="labelCtrl.invalid || labelCtrl.pristine" (click)="save()">
+    Save
+  </button>
+</mat-dialog-actions>
