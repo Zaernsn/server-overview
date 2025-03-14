@@ -26,7 +26,7 @@ export class ServerDialogComponent {
   labelCtrl: FormControl = new FormControl('');
   
   constructor(private dialogRef: MatDialogRef<ServerDialogComponent>,private serverService: ServerService){
-    this.labelCtrl.setValue(this.server.label)
+    this.labelCtrl.setValue(this.server?.label)
   }
 
   save(){
