@@ -21,14 +21,6 @@ export class ServerService {
     this.serversSubject.next(this.extractServers(this.jsonData));
   }
 
-  updateServer(updatedServer: Server) {
-    const servers = this.serversSubject.value.map(server => 
-      server === updatedServer ? { ...server, ...updatedServer } : server
-    );
-  
-    this.serversSubject.next(servers);
-  }
-
   addServer(server: Server) {
     const updatedServers = [server, ...this.serversSubject.value];
     this.serversSubject.next(updatedServers);
